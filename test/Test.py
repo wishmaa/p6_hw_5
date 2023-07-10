@@ -1,10 +1,8 @@
-import selene
 from selene import browser, have, be
-from selenium.webdriver.common import by
 import os
 
 def test_fill_form():
-    browser.open('/')
+    browser.open('/automation-practice-form')
     browser.should(have.url_containing('automation-practice-form'))
 
 #Fill form
