@@ -1,47 +1,49 @@
-from selene import browser, have, be
-import os
+
+from model.reg_page import RegPage
+
 
 def test_fill_form():
-    browser.open('/automation-practice-form')
-    browser.should(have.url_containing('automation-practice-form'))
+    # Open registration form
+    reg_page = RegPage()
+    reg_page.open()
 
-#Fill form
-    browser.element('#firstName').type('Name')
-    browser.element('#lastName').type('Lastname')
-    browser.element('#userEmail').type('mailemail@mail.com')
-    browser.all('#genterWrapper .custom-control').element_by(have.exact_text('Male')).click()
-    browser.element('#userNumber').type('8922132234')
+    # Fill form
+    reg_page.fill_firstname('Name')
 
-#Date birth
-    browser.element('#dateOfBirthInput').click()
-    browser.element('[value="1990"]').click()
-    browser.element('[value="2"]').click()
-    browser.element('[class="react-datepicker__day react-datepicker__day--009"]').click()
+    reg_page.fill_lastname('Lastname')
 
-#Hobby
-    browser.element('#subjectsInput').type('Computer Science').press_enter()
-    browser.element('label[for="hobbies-checkbox-1"]').click()
+    reg_page.fill_email('mailemail@mail.com')
 
-#Upload file
-    browser.element('#uploadPicture').send_keys(os.path.abspath('picture/image.png'))
+    reg_page.fill_gender('Male')
 
-#City
-    browser.element('#currentAddress').type("127000 Main Street 12b")
-    browser.element('#state').click()
-    browser.all('#state div').element_by(have.exact_text("NCR")).click()
-    browser.element('#city').click()
-    browser.all('#city div').element_by(have.exact_text("Delhi")).click()
-    browser.element('#submit').click()
+    reg_page.fill_phone('8922132234')
 
-#Check form
-    browser.element('#example-modal-sizes-title-lg').should(have.text('Thanks for submitting the form'))
-    browser.element('.modal-body').should(have.text('Name Lastname'))
-    browser.element('.modal-body').should(have.text('mailemail@mail.com'))
-    browser.element('.modal-body').should(have.text('Male'))
-    browser.element('.modal-body').should(have.text('8922132234'))
-    browser.element('.modal-body').should(have.text('09 March,1990'))
-    browser.element('.modal-body').should(have.text('Computer Science'))
-    browser.element('.modal-body').should(have.text('Sports'))
-    browser.element('.modal-body').should(have.text('image.png'))
-    browser.element('.modal-body').should(have.text('127000 Main Street 12b'))
-    browser.element('.modal-body').should(have.text('NCR Delhi'))
+    reg_page.fill_dateofbirth('1990', 'February', '09')
+
+    reg_page.fill_subjects('Computer Science')
+
+    reg_page.fill_hobby('Reading')
+
+    reg_page.upload_file('image.png')
+
+    reg_page.fill_currentadress('127000 Main Street 12b')
+
+    reg_page.fill_state('NCR')
+
+    reg_page.fill_city('Delhi')
+
+    # Check registration results
+    reg_page.should_have_header('Thanks for submitting the form')
+
+    reg_page.should_have_user_information(
+        'Name Lastname',
+        'mailemail@mail.com',
+        'Male',
+        '8922132234',
+        '09 February,1990',
+        'Computer Science',
+        'Reading',
+        'image.png',
+        '127000 Main Street 12b',
+        'NCR Delhi',
+    )
