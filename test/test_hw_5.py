@@ -1,5 +1,5 @@
 
-from model.reg_page import RegPage
+from model.pages.reg_page import RegPage
 
 
 def test_fill_form():
