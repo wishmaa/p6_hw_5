@@ -1,5 +1,4 @@
 import os
-
 from selene import browser, have
 from selene import command
 
@@ -47,7 +46,7 @@ class RegPage:
     def upload_file(self, value):
         return str(
             browser.element("#uploadPicture").send_keys(
-                os.path.abspath(f"picture/{value}")
+                os.path.abspath(f"test/resources/{value}")
             )
         )
 
