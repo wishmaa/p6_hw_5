@@ -53,13 +53,16 @@ class RegPage:
     def fill_state(self, value):
         browser.element("#state").click()
         browser.all("#state div").element_by(have.exact_text(value)).click()
+        return self
 
     def fill_city(self, value):
         browser.element("#city").click()
         browser.all('[id^=react-select][id*=option]').element_by(have.exact_text(value)).click()
+        return self
 
     def submitting(self):
         browser.element('#submit').click()
+        return self
 
     def should_have_user_information(
             self, user):
@@ -80,3 +83,4 @@ class RegPage:
                 f"{user.state} {user.city}"
             )
         )
+        return self
